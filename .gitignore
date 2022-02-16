@@ -1,0 +1,9 @@
+ai_hub_food_dataset/
+dataset_process/
+yolov4/custom_data/images
+yolov4/custom_data/labels
+yolov4/darknet_master
+yolov4/darknet_master.zip
+
+*.zip
+./yolov4.zip
