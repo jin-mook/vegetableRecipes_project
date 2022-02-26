@@ -56,6 +56,7 @@ const RecipeForm = () => {
     refetch: registerNewRecipe,
   } = useQuery('register-recipe', () => registerRecipe(formData), {
     enabled: false,
+    refetchOnWindowFocus: false,
     cacheTime: 0,
   });
 
@@ -229,7 +230,7 @@ const RecipeForm = () => {
         </IngredientContainer>
         <StepContainer>
           {stepNum.map((idx) => (
-            <>
+            <div key={idx}>
               <h3>
                 조리 단계 {Number(Object.keys(stepNum).splice(idx, 1)) + 1}
               </h3>
@@ -248,7 +249,7 @@ const RecipeForm = () => {
                   placeholder='단계별 사진을 업로드 해주세요.'
                 />
               </RecipeSteps>
-            </>
+            </div>
           ))}
         </StepContainer>
         <Button style={{ marginBottom: '2rem' }} onClick={handleAddSteps}>
