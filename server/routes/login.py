@@ -6,6 +6,7 @@ from flask import Blueprint, request, g
 from flask_restx import Namespace, Resource, fields
 from models import db, Users
 
+
 login_page = Blueprint('login_page', __name__, url_prefix='/user')
 login_page_api = Namespace('login_page_api', path='/user')
 
