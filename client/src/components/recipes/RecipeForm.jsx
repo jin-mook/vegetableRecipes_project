@@ -44,7 +44,7 @@ const RecipeForm = () => {
     occasion: '',
     kind: '',
     cooking_step: [],
-    cooking_image: {},
+    step_count: 0,
     serving: '',
     time: '',
     total_ingredients: { 재료: {}, 양념: {} },
@@ -131,6 +131,7 @@ const RecipeForm = () => {
       ['occasion']: option.occ,
       ['serving']: option.serving,
       ['time']: option.time,
+      ['step_count']: stepNum.length,
     });
     setIsModalOpen(true);
   };
