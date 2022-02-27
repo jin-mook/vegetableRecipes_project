@@ -10,9 +10,9 @@ RUN apt-get install 'ffmpeg'\
     'libsm6'\
     'libxext6'  -y
 
-
+RUN pip install gunicorn
 
 COPY . .
 EXPOSE 5000
 
-CMD [ "flask", "run" ]
+CMD [ "gunicorn", "app:app", "-b", "0.0.0.0:5000", "--timeout", "300" ]
