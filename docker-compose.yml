@@ -2,7 +2,7 @@ version: '3'
 
 services:
   client:
-    image: jink0608/final_react
+    image: jink0608/final_react_test
 
     build: ./client
     
@@ -16,7 +16,7 @@ services:
 
 
   server:
-    image: jink0608/final_flask
+    image: jink0608/final_flask_test
 
     build: ./server
 
@@ -31,7 +31,7 @@ services:
   mysql:
     # m1침의 경우 아래 코드 주석을 해제하고 docker-compose를 실행해주세요
     # platform: linux/x86_64
-    image: jink0608/final_mysql
+    image: jink0608/final_mysql_test
 
     build: ./mysql
 
