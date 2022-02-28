@@ -23,7 +23,7 @@ parser.add_argument("ing", type=str)
 @images_search_api.route('/image-search', methods=['POST'])
 class image_search(Resource):
     def post(self):
-        try:
+        # try:
             file = request.files['file']
 
             #*post request에 file이 존재하는지 확인
@@ -77,12 +77,12 @@ class image_search(Resource):
                     all_recipes.append(recipe_dict)
 
             final_recipes = [i for n, i in enumerate(all_recipes) if i not in all_recipes[n + 1:]]
-
+            print('len: ', len(final_recipes))
             #*이미지 삭제
             if os.path.exists(img_path):   
                 os.remove(img_path)
                 
             return make_response(jsonify({"ingredients": ingredient_names, "recipes":final_recipes}),200)
         
-        except Exception as e:
-            return make_response(jsonify({'message': 'error'}), 500)
+        # except Exception as e:
+        #     return make_response(jsonify({'message': 'error'}), 500)
