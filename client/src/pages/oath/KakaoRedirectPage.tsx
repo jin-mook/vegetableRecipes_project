@@ -14,7 +14,7 @@ const KakaoRedirectPage: React.FC = () => {
   const setAuthenticated = useSetRecoilState(authAtom);
 
   const authCode = new URL(window.location.href).searchParams.get('code');
-
+  console.log('authCode: ', authCode)
   const {
     data: token,
     isError,
@@ -22,7 +22,7 @@ const KakaoRedirectPage: React.FC = () => {
   } = useQuery('send-authCode', () => sendKakaoAuthCode(authCode), {
     cacheTime: 0,
   });
-
+  console.log('token: ', token?.data)
   if (isError) {
     Swal.fire('로그인에 실패했습니다.');
     return <Navigate to='/login' />;
