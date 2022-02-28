@@ -22,13 +22,13 @@ export const logUserIn = (userInfo: { email: string; password: string }) => {
   return axios.post(`${process.env.REACT_APP_BASE_URL}/user/login`, userInfo);
 };
 
-const KAKAO_REDIRECT_URI = 'http://localhost:3000/user/kakao/callback';
+const KAKAO_REDIRECT_URI = `${process.env.REACT_BASE_URL}user/kakao/callback`;
 const HOST = 'https://kauth.kakao.com';
 const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
 
 export const kakaoRequestUrl = `${HOST}/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
-const GOOGLE_REDIRECT_URI = 'http://localhost:3000/user/google/callback';
+const GOOGLE_REDIRECT_URI = `${process.env.REACT_BASE_URL}user/google/callback`;
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_KEY;
 const SCOPE = 'openid%20profile%20email';
 
