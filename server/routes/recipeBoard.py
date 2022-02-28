@@ -112,7 +112,7 @@ class Recipe_register(Resource):
         save_file_name = f"static/{dir_name}/step{i}.{extension}"
         print('save_file_name: ', save_file_name)
         file.save(save_file_name)
-        url = f"http://localhost:5000/{save_file_name}"
+        url = f"{os.environ['BASE_URL']}/{save_file_name}"
         if i == 0:
           main_image += url
         else:

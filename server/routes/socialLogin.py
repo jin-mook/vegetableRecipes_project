@@ -50,8 +50,8 @@ class CallbackKakao(Resource):
   def get(self):
     # 인가 코드 받기
     code = request.args['code']
-    client_id = '3bd9b6338c79bdbd5667f28d91127577'
-    redirect_uri = 'http://localhost:3000/user/kakao/callback'
+    client_id = os.environ['KAKAO_RESTAPI_KEY']
+    redirect_uri = 'http://elice-kdt-ai-3rd-team08.koreacentral.cloudapp.azure.com/user/kakao/callback'
     
     # 토큰 받기
     kakao_oauthurl = 'https://kauth.kakao.com/oauth/token'
