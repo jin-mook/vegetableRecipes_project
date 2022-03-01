@@ -8,11 +8,18 @@ services:
     
     container_name: final_react
     stdin_open: true
-    ports:
-      - "80:80"
+    # ports:
+    #   - "80:80"
     
     depends_on:
       - server
+
+  nginx:
+    restart: always
+
+    image: jink0608/final_nginx_test
+    ports:
+      - "80:80"
 
 
   server:
@@ -21,8 +28,8 @@ services:
     build: ./server
 
     container_name: final_flask
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
 
     depends_on:
       - mysql
