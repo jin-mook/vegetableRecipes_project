@@ -18,6 +18,9 @@ services:
     restart: always
 
     image: jink0608/final_nginx_test
+    build: ./nginx
+
+    container_name: final_nginx
     ports:
       - "80:80"
 
