@@ -14,8 +14,8 @@ from models import db, Recipes, RecipesIngredients, Ingredients, Comments, Categ
 from demo_detector_65 import predict_ver2_os as pv2
 
 
-images_search = Blueprint('images_search', __name__, url_prefix='/recipes')
-images_search_api = Namespace('search', path='/recipes')
+images_search = Blueprint('images_search', __name__, url_prefix='/api/recipes')
+images_search_api = Namespace('search', path='/api/recipes')
 
 parser = reqparse.RequestParser()
 parser.add_argument("ing", type=str)

@@ -1,3 +1,4 @@
+from pydoc import doc
 import jwt
 
 from flask import Flask, request, g
@@ -28,13 +29,13 @@ app.register_blueprint(recipe_detail)
 app.register_blueprint(recipe_board_page)
 app.register_blueprint(words_search)
 app.register_blueprint(images_search)
-api = Api(app, version='1.0', title='한컷한상', description='한컷한상 api 명세서')
+api = Api(app, version='1.0', title='한컷한상', description='한컷한상 api 명세서', doc='/api')
 api.add_namespace(login_page_api)
 api.add_namespace(social_login_page_api)
 api.add_namespace(recipe_board_page_api)
 api.add_namespace(words_search_api)
 api.add_namespace(recipe_detail_api)
-api.add_namespace(images_search_api)
+# api.add_namespace(images_search_api)
 
 # 요청이 들어올때 로그인된 유저라면 g.current_user에 담아두고 요청 처리 이후 삭제한다.
 @app.before_request
