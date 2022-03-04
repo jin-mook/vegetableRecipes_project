@@ -35,7 +35,7 @@ api.add_namespace(social_login_page_api)
 api.add_namespace(recipe_board_page_api)
 api.add_namespace(words_search_api)
 api.add_namespace(recipe_detail_api)
-# api.add_namespace(images_search_api)
+api.add_namespace(images_search_api)
 
 # 요청이 들어올때 로그인된 유저라면 g.current_user에 담아두고 요청 처리 이후 삭제한다.
 @app.before_request
