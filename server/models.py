@@ -21,7 +21,7 @@ class Recipes(db.Model):
 
   categories = db.relationship('Categories', backref="Recipes")
   users = db.relationship('Users', backref="Recipes")
-  # recipes_ingredients = db.relationship('RecipesIngredients', backref="Recipes")
+  recipes_ingredients = db.relationship('RecipesIngredients', backref="Recipes")
 
   def __init__(self, user_id, name, main_image, cooking_step, cooking_image, serving, time, total_ingredients):
     self.user_id = user_id
@@ -69,41 +69,11 @@ class Ingredients(db.Model):
 
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   name = db.Column(db.String(255), unique=True)
+  type = db.Column(db.Integer)
 
-  def __init__(self, name):
+  def __init__(self, name, type):
     self.name = name
-
-
-class Comments(db.Model):
-  __tablename__ = "Comments"
-
-  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  recipe_id = db.Column(db.Integer, db.ForeignKey('Recipes.id'))
-  user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
-  parent_id = db.Column(db.Integer, default=0)
-  comment = db.Column(db.Text)
-  rating = db.Column(db.Integer, default=0)
-  created_at = db.Column(db.Date, default=date.today())
-  
-
-  def __init__(self, recipe_id, user_id, parent_id, commnet, rating):
-    self.recipe_id = recipe_id
-    self.user_id = user_id
-    self.parent_id = parent_id
-    self.comment = commnet
-    self.rating = rating
-
-
-class Likes(db.Model):
-  __tablename__ = "Likes"
-
-  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
-  recipe_id = db.Column(db.Integer, db.ForeignKey('Recipes.id'))
-
-  def __init__(self, user_id, recipe_id):
-    self.user_id = user_id
-    self.recipe_id = recipe_id
+    self.type = type
 
 
 class Users(db.Model):

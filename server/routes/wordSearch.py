@@ -4,7 +4,7 @@ from flask import Blueprint, make_response, session, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restx import Resource, Api, reqparse, Namespace, Resource, fields
 from requests import status_codes
-from models import db, Recipes, RecipesIngredients, Ingredients, Comments, Categories, Users
+from models import db, Recipes, RecipesIngredients, Ingredients, Categories, Users
     
 words_search = Blueprint('/word/search', __name__, url_prefix='/api/recipes')
 words_search_api = Namespace('search', path='/api/recipes')
@@ -52,7 +52,7 @@ class word_search(Resource):
                     recipes= RecipesIngredients.query.filter(RecipesIngredients.ingredients_id ==ingredient_id.id).all()
 
                     if len(recipes)==0 :
-                        return make_response("해당하는 레시피가 없습니다.", 404)
+                        return make_response(jsonify([]))
 
                     for recipe in recipes:
                         category_list = recipe.recipes.categories
