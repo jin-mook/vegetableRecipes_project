@@ -5,7 +5,6 @@ services:
     image: nginx:latest
     volumes:
         - ./nginx/defualt.conf:/etc/nginx/conf.d/
-        - ./nginx/log:/var/log/nginx
         - ./www:/var/www/html
     ports:
         - 80:80
