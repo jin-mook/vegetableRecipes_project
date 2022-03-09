@@ -27,7 +27,7 @@ export const fetchSearchResult = (query: string, pageParams: number = 1) => {
 // };
 
 export const fetchDetailInfo = (params: string | undefined) => {
-  return axios.get(`${BASE_URL}/recipes/${params}`);
+  return axios.get(`${process.env.REACT_APP_BASE_URL}/recipes/${params}`);
 };
 
 export const registerRecipe = (formData: FormData) => {
