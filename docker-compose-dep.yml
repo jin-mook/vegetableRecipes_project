@@ -1,0 +1,22 @@
+version: "3"
+    
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+        - ./nginx/defualt.conf:/etc/nginx/conf.d/
+        - ./nginx/log:/var/log/nginx
+        - ./www:/var/www/html
+    ports:
+        - 80:80
+
+  certbot:
+    depends_on:
+      - nginx
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/var:/var/lib/letsencrypt
+      - ./www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email jink060806@gmail.com --agree-tos --no-eff-email --force-renewal -d elice-kdt-ai-3rd-team08.koreacentral.cloudapp.azure.com -d www.elice-kdt-ai-3rd-team08.koreacentral.cloudapp.azure.com
