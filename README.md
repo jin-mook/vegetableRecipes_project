@@ -29,78 +29,83 @@
   - docker-compose를 이용하여 개발 환경 세팅 및 배포 진행
   - 로컬과 카카오, 구글을 이용한 소셜 로그인 및 회원가입 api 구현
   - 레시피 작성 및 삭제 api 구현
-  * client
-    * nginx
-    * sourc
+  - 아래 구조는 제가 작성한 코드들만 나타낸 구조입니다.
+```
+project
+|---  server
+|       |--- routes
+|       |     |---login.py
+|       |     |---socialLogin.py
+|       |     |---recipeBoard.py
+|       |     |---updateRecipe.py
+|       |--- Dockerfile
+|       |--- Dockerfile-dev
+|       |--- models.py
+|       |--- app.py    
+|
+|---  nginx
+|       |--- Dockerfile
+|       |--- default.conf
+|
+|--- mysql
+|       |--- Dockerfile
+|       |--- initialize.sql
+|       |--- my.cnf
+|
+|--- docker-compose.yml        // certbot을 통해 ssl 키를 받기 위한 docker-compose 파일
+|--- docker-compose-dev.yml    // 개발환경을 위한 docker-compose 파일
+|--- docker-compose-dep.yml    // ssl 인증키를 받은 후 배포를 위한 docker-compose 파일 
+```
+#### 사용한 기술 스택
+- **Flask**, **Flask-SQLAlchemy**, **Docker**, **MySQL**, **Nginx**
+
+# 작성한 주요 코드
+1. 소셜 로그인
+- 프론트 서버에서 인가 코드를 먼저 받게 되면 이후에 아래 엔드포인트로 인가코드를 담아서 get요청을 보냅니다.
+- 받은 인가코드를 이용해     
+```python
+# 카카오로그인 콜백 라우터
+@social_login_page_api.route('/callback/kakao')
+class CallbackKakao(Resource):
+  def get(self):
+    try:
+      # 인가 코드 받기
+      code = request.args['code']
+      client_id = os.environ['KAKAO_RESTAPI_KEY']
+      redirect_uri = os.environ['KAKAO_REDIRECT_URL']
+      
+      # 토큰 받기
+      kakao_oauthurl = 'https://kauth.kakao.com/oauth/token'
+      data = {
+        'grant_type': 'authorization_code',
+        'client_id': client_id,
+        'redirect_uri': redirect_uri,
+        'code': code,
+      }
+      token_request = requests.post(kakao_oauthurl, data)
+      token_json = token_request.json()
+      access_token = token_json['access_token']
+
+      # 토큰을 통해 유저 정보 요청하기
+      kakao_info_url = 'https://kapi.kakao.com/v2/user/me'
+      request_header = {
+        'Authorization': f"Bearer {access_token}"
+      }
+      info_request = requests.get(kakao_info_url, headers=request_header)
+      data = info_request.json()
+
+      nickname = data['properties']['nickname']
+
+      # 닉네임을 가지고 회원가입 및 로그인 진행
+      jwt_token = register_and_token(nickname, 'kakao')
+      return jsonify({'success': True, 'message': '로그인 성공', 'jwt': jwt_token})
+    except Exception as e:
+      return jsonify({'success': False, 'message': '서버 내부 에러'})
     
     
-## 5. 사용 기술 스택
-- AI : Darknet, OpenCV
-- 백엔드 : Flask, Flask-SQLAlchemy, Docker, Mysql, Nginx
-- 프론트엔드 : TypeScript, ReactQuery, Recoil, Styled-Components, Axios
-
-## 6. 프로젝트 팀원 역할 분담
-| 이름 | 담당 업무 |
-| ------ | ------ |
-| 유환익 | 팀장/프론트엔드 개발 |
-| 정진묵 | 백엔드 개발 |
-| 임은비 | 백엔드 개발 |
-| 이보연 | 백엔드 개발/데이터 |
-| 이영민 | 인공지능 개발 |
-
-**멤버별 responsibility**
-
-1. 유환익: 팀장/프론트엔드 담당
-
-- 개발 일정 관리
-- 메인 화면, 검색, 조회 기능 구현
-- 로그인/회원가입 기능 구현
-- 레시피 가이드 페이지 구현
-
-2. 정진묵: 백엔드 담당
-
-- 레시피 작성 페이지 구현
-- 로그인/로그아웃 페이지 구현
-- 개발환경 설정 및 배포
-
-3. 임은비: 백엔드 담당
-- DB 설계 및 api 명세 작성
-- 재료 검색 페이지 구현
-- 레시피 검색 페이지 구현
-
-4. 이보연: 백엔드 담당
-- DB 설계 및 api 명세 작성
-- 레시피 데이터 추출 및 전처리
-- 레시피 상세페이지 구현
-
-5. 이영민: 인공지능 담당
-- 서비스에 적합한 모델 선정
-- 학습 데이터 만들기 - 데이터 선정 + 크롤링/Annotation
-- 여러 종류의 AI 모델 학습 및 구현
-
-
-## 7. 버전
-  - 1.0.0
-
-## 8. FAQ
-  ### AI
-  - 어떤 AI 모델을 사용하였나요?
-    - YOLO 계열 중 활발하게 사용되어 온 yolov4 계열을 사용했습니다.
-    - https://github.com/AlexeyAB/darknet
-  - 총 몇개의 클래스를 탐지 가능한가요?
-    - 대중적인 생선, 야채, 과일, 견과류, 소스류 총 70종을 학습시켰습니다.
-  - AIHub의 커스텀 annotation 형식을 어떻게 yolo darknet 형식으로 변환 했나요?
-    - 직접 코드를 제작하여 변환 했습니다
-    - Team8 > ai backup > master branch > dataset_practice_swish > swish_F03_annotation_form_transformer.py 참고
-    - 최종 모델 학습에 사용한 코드들은 dataset_practice_swish 폴더에 있습니다. 코드 동작 순서대로 정리해 두었으니 조금이라도 도움이 되었으면 합니다.
-    - swish_F03_annotation_form_transformer.py 작동 후 roboflow 사이트에서 annotation 및 augmentation적용 한 후 다음 코드로 넘어갑니다.
-    - 학습 완료한 모델을 시험해 볼 때 swish_70_classes_practice.py 파일을 사용하였습니다.
-    - roboflow 사용 및 새로운 데이터 추가 없이 기존의 AIHub 데이터셋만 사용하시려면 dataset_practice 폴더 참고하시면 됩니다.
-    - https://kdt-gitlab.elice.io/ai_track/class_03/ai_project/team8/ai-backup
-  - AI 학습 데이터 annotation 및 augmentation 시킨 방법 : roboflow 사이트 이용
-  - 모델은 어디에서 학습시켰나요?
-    - google colab pro를 결재하여 학습을 진행하였습니다. 제공되는 하드웨어도 뛰어나고, 편의성도 좋아서 후회한 적 없습니다. 
-      특히 google drive와 연동이 가능할 수 있다는 점이 장점 중 하나입니다.
-  - 케찹, 칠리소스, 고추장 같은 소스류도 모델이 잘 구분을 하나요?
-    - 소스류의 경우 그릇 등에 담겨져 있으면 AI가 잘 학습하지 못해서, 대중적인 공산품 소스의 용기를 따로 크롤링하여 학습시켰습니다.
-    - ex) 케찹 : 오뚜기, Heinz,  청정원 케찹 등
+```
+    
+    
+    
+    
+    
