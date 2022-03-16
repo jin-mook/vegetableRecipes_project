@@ -58,7 +58,14 @@ project
 |--- docker-compose-dep.yml    // ssl 인증키를 받은 후 배포를 위한 docker-compose 파일 
 ```
 #### 사용한 기술 스택
-- **Flask**, **Flask-SQLAlchemy**, **Docker**, **MySQL**, **Nginx**
+|기술|특징|
+|:---:|:---:|
+|Flask|Django에 비해 구현이 간단한 Flask를 이용하였습니다.|
+|Flask_sqlalchemy|ORM을 이용해 객체 형식으로 코드를 작성하기 위해 선택하였습니다.|
+|MySQL|가장 널리 사용되는 DB이며 준수한 속도를 보장하기 때문에 선택하였습니다.|
+|JWT|서버의 무리를 줄이기 위해 세션이 아닌 JWT를 이용하여 사용자 인증을 진행하였습니다.|
+|Docker|동일한 환경에서 개발하기 위해 docker-compose를 이용해 개발을 진행하였고 이후에 Azure VM에 배포하였습니다.|
+|Nginx|nginx의 리버스 프록시 기능을 이용하여 서비스 아키텍쳐를 설계하였습니다.|
 
 # 작성한 주요 코드
 1. 소셜 로그인
