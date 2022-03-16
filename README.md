@@ -17,6 +17,7 @@
   - 재료 사진을 업로드 하면 해당 재료로 만들 수 있는 레시피를 제공해 줍니다.
   - 재료를 검색하면 해당 재료로 만들 수 있는 레시피를 제공해 줍니다.
   - 자신만의 레시피를 등록할 수 있습니다.
+  - [프로젝트 와이어프레임](https://www.figma.com/file/sZVmbrwxm10F5J3Mge2oIq/%EC%B1%84%EC%95%A0%EB%A0%88%EC%8B%9C%ED%94%BC?node-id=0%3A1)
   
   <centor><img src="https://user-images.githubusercontent.com/91299082/158384954-b61e4dd8-446b-48b1-b9e4-77babe033fbb.png" width="80%" height="400">
 
