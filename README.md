@@ -23,7 +23,7 @@
 - 채식 입문자들을 위해, 재료 사진 한장을 인공지능 모델로 분석하여 맛있는 채식 레시피를 제공합니다.
 - 현재 채식을 하고 있거나 채식에 관심은 있지만 시도해본 적 없는 채식 입문자들을 위해 채식 레시피를 제공하는 서비스입니다. 
 
-[채愛레시피 바로가기](https://elice-kdt-ai-3rd-team08.elicecoding.com) 해당 서비스는 3/31까지만 유효합니다.
+[채愛레시피 바로가기](https://chae-recipe.koreacentral.cloudapp.azure.com)
 
 <br>  
 
